@@ -29,11 +29,13 @@ void draw() {
   background(0);  
 }
 
-
-/* incoming osc message are forwarded to the oscEvent method. */
 void oscEvent(OscMessage theOscMessage) {
-  /* print the address pattern and the typetag of the received OscMessage */
-  print("### received an osc message.");
-  print(" addrpattern: "+theOscMessage.addrPattern());
-  println(" typetag: "+theOscMessage.typetag());
+  
+  if(theOscMessage.checkAddrPattern("/sensor_0")==true) {
+      /* parse theOscMessage and extract the values from the osc message arguments. */
+      int ldr = theOscMessage.get(0).intValue();  
+      println(" ldr: "+ldr);
+      return;
+    
+  } 
 }

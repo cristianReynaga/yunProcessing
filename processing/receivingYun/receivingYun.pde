@@ -37,8 +37,8 @@ String tail="E";
 void setup() {
   size(100, 100);
   oscP5 = new OscP5(this, portOsc);
-  myRemoteLocation = new NetAddress(ip, portOsc);
-  
+  myRemoteLocation = new NetAddress("127.0.0.1", 12000);
+
   try {
     jsch = new JSch();
     session = jsch.getSession(user, host, port);
@@ -94,6 +94,12 @@ void draw() {
         String ss=trim(s);
         String[]ii= split(ss, ',');
         //println(ii[0]);
+          int a= Integer.parseInt(ii[0]);
+
+        //OSC
+        OscMessage myMessage = new OscMessage("/sensor_0");
+        myMessage.add(a);
+        oscP5.send(myMessage, myRemoteLocation);
         if (ii[0].equals(header)) {
           println("check");
           String iii=ii[1];
@@ -109,13 +115,10 @@ void draw() {
             println("s1: "+s1+ " s2:  " +s2+ " s3: "+s3);
           }
         }
-        
-        //OSC
-        OscMessage myMessage = new OscMessage("/sensor_0");
-        myMessage.add(ii[0]);
-        oscP5.send(myMessage, myRemoteLocation);
-       // println("sending: "+ii[0]);
-        
+
+
+        // println("sending: "+ii[0]);
+
         //  int a= Integer.parseInt(s);
         // a=a+3;
         int a= Integer.parseInt(ii[0]);
@@ -177,6 +180,26 @@ void draw() {
    System.err.print(ee);
    }
    */
+}
+
+void mousePressed() {
+  /* in the following different ways of creating osc messages are shown by example */
+  OscMessage myMessage = new OscMessage("/test");
+
+  myMessage.add(123); /* add an int to the osc message */
+  myMessage.add(12.34); /* add a float to the osc message */
+  myMessage.add("some text"); /* add a string to the osc message */
+  myMessage.add(new byte[] {
+    0x00, 0x01, 0x10, 0x20
+  }
+  ); /* add a byte blob to the osc message */
+  myMessage.add(new int[] {
+    1, 2, 3, 4
+  }
+  ); /* add an int array to the osc message */
+
+  /* send the message */
+  oscP5.send(myMessage, myRemoteLocation);
 }
 
 
