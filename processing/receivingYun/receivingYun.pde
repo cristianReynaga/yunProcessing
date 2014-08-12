@@ -2,11 +2,20 @@ import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 import java.io.*;
+import oscP5.*;
+import netP5.*;
+
 
 String user = "root";
 String password = "isabel09";
 String host = "yunlab.local";
 int port=22;
+
+//Variables OSC
+OscP5 oscP5;
+NetAddress myRemoteLocation;
+int portOsc=12000;
+String ip="127.0.0.1";
 
 //////Create instances
 JSch jsch;
@@ -27,6 +36,9 @@ String tail="E";
 
 void setup() {
   size(100, 100);
+  oscP5 = new OscP5(this, portOsc);
+  myRemoteLocation = new NetAddress(ip, portOsc);
+  
   try {
     jsch = new JSch();
     session = jsch.getSession(user, host, port);
@@ -81,7 +93,7 @@ void draw() {
       if (s != null) {
         String ss=trim(s);
         String[]ii= split(ss, ',');
-        println(ii);
+        //println(ii[0]);
         if (ii[0].equals(header)) {
           println("check");
           String iii=ii[1];
@@ -97,6 +109,13 @@ void draw() {
             println("s1: "+s1+ " s2:  " +s2+ " s3: "+s3);
           }
         }
+        
+        //OSC
+        OscMessage myMessage = new OscMessage("/sensor_0");
+        myMessage.add(ii[0]);
+        oscP5.send(myMessage, myRemoteLocation);
+       // println("sending: "+ii[0]);
+        
         //  int a= Integer.parseInt(s);
         // a=a+3;
         int a= Integer.parseInt(ii[0]);
