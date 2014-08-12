@@ -32,6 +32,9 @@
 const int ledPin = 13; // the pin that the LED is attached to
 char incomingByte;      // a variable to read incoming Console data into
 const int del = 100;
+const int dataSize = 4;
+char header='S';
+char tail='E';
 void setup() {
   Bridge.begin();   // Initialize Bridge
   Console.begin();  // Initialize Console
@@ -60,23 +63,23 @@ void loop() {
     digitalWrite(ledPin, LOW);
   }
   int sensor = analogRead(0);
-
-  Console.print('S');
- //delay(del);
-  Console.print(100);
-  //delay(del);
-  //Console.print(",");
-  //Console.print(404);
-  //Console.print(",");
-  //Console.print(504);
-  Console.print('E');
-  delay(del);
-  //  Console.println();
-  // Console.print('K');
-  //Console.print(604);
-  //Console.print(",");
-  //Console.print(704);
-  // Console.println();
+    Console.print(header);
+    delay(del);
+    Console.print(100);
+    delay(del);
+    //Console.print(",");
+    //Console.print(404);
+    //Console.print(",");
+    //Console.print(504);
+    Console.print(tail);
+    delay(del);
+    //  Console.println();
+    // Console.print('K');
+    //Console.print(604);
+    //Console.print(",");
+    //Console.print(704);
+    // Console.println();
+  
 
 
 }

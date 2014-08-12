@@ -22,6 +22,8 @@ int timerApagado=0;
 int ARRAY_SIZE= 4;
 int end=10;
 String ss;
+String header="S";
+String tail="E";
 
 void setup() {
   size(100, 100);
@@ -80,14 +82,19 @@ void draw() {
         String ss=trim(s);
         String[]ii= split(ss, ',');
         println(ii);
+        if (ii[0].equals(header)) {
+          println("check");
+          String iii=ii[1];
+          println("completo:     "+iii);
+        }
         if (ii.length==4) {
-          
+
           String s1=ii[0];
           String s2=ii[1];
           String s3=ii[2];
           String statusCheck="";
-          if(!s1.equals(statusCheck)){
-          println("s1: "+s1+ " s2:  " +s2+ " s3: "+s3);
+          if (!s1.equals(statusCheck)) {
+            println("s1: "+s1+ " s2:  " +s2+ " s3: "+s3);
           }
         }
         //  int a= Integer.parseInt(s);
