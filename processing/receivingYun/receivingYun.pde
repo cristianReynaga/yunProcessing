@@ -121,8 +121,7 @@ void draw() {
 
         //  int a= Integer.parseInt(s);
         // a=a+3;
-        int a= Integer.parseInt(ii[0]);
-        a=a+3;
+   
         //int iiCount= ii.length();
 
 
