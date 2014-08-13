@@ -9,6 +9,7 @@
 */
 
 #include <Console.h>
+#include "DHT.h"
 
 const int ledPin = 13; // the pin that the LED is attached to
 char incomingByte;      // a variable to read incoming Console data into
@@ -19,51 +20,65 @@ String header = "A";
 String tail = "B";
 String mensaje = "";
 
+// Variables sensores
+byte Offset = 0;
+#define DHTPIN 2 //Seleccionamos el pin en el que se //conectará el sensor
+#define DHTTYPE DHT11 //Se selecciona el DHT11 (hay //otros DHT)
+DHT dht(DHTPIN, DHTTYPE); //Se inicia una variable que será usada por Arduino para comunicarse con el sensor
+unsigned long time;
+// Variables Luz
+int lightPin = 5;  //Pin de la foto-resistencia
+int light = 0;   //Variable light
+int light0 = 0;
+float Res0 = 10.0;
+//int min = 0;       //valor mínimo que da la foto-resistencia
+//int max = 1000;       //valor máximo que da la foto-resistencia
+// Variables ruido
+int electret = 0;
+int lect = 0;
+int noise = 0;
+int threshold = 760;
+
+
 void setup() {
 
   Bridge.begin();   // Initialize Bridge
   Console.begin();  // Initialize Console
+  dht.begin();
 
   // Wait for the Console port to connect
   while (!Console);
 
-  // initialize the LED pin as an output:
-  pinMode(ledPin, OUTPUT);
 }
 
 void loop() {
-  // see if there's incoming Console data:
-  //if (Console.available() > 0) {
-  // read the oldest byte in the Console buffer:
-  incomingByte = Console.read();
-  // Console.println(incomingByte);
-  // if it's a capital H (ASCII 72), turn on the LED:
-  if (incomingByte == 'H') {
-    digitalWrite(ledPin, HIGH);
-  }
-  // if it's an L (ASCII 76) turn off the LED:
-  if (incomingByte == 'L') {
-    digitalWrite(ledPin, LOW);
-  }
+
+  //Sensores
+
+  //Temperatura
+  int temp = dht.readTemperature() - 6;
+  //Humedad
+  int hum = dht.readHumidity() + 7;
+  //Ruido
+  int lect = analogRead(electret);
+  noise = lect - threshold;
+  //Luz
+  light0 = analogRead(lightPin);   // Read the analogue pin
+  float Vout0 = light0 * 0.0048828125;  // calculate the voltage
+  light = 500 / (Res0 * ((5 - Vout0) / Vout0));
+
   int sensor = analogRead(0);
 
-
-
+  //Sending data
   mensaje += header;
- // mensaje += ",";
-
   int largo = 4;//(int)random(1, 4);
 
   for (int i = 0; i < largo; i++) {
     mensaje += String((int)random(0, 9));
-    //mensaje += ",";
-    //   delay(del);
   }
+
   mensaje += tail;
-//  mensaje += ",";
-
   delay(del);
-
   Console.print(mensaje);
   mensaje = "";
 
