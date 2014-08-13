@@ -41,25 +41,22 @@ void loop() {
 
 
   mensaje += header;
-  mensaje += ",";
+ // mensaje += ",";
 
-  int largo = (int)random(1, 4);
+  int largo = 4;//(int)random(1, 4);
 
   for (int i = 0; i < largo; i++) {
-    mensaje += String((int)random(0, 1023));
-    mensaje += ",";
+    mensaje += String((int)random(0, 9));
+    //mensaje += ",";
     //   delay(del);
   }
   mensaje += tail;
-  mensaje += ",";
+//  mensaje += ",";
 
   delay(del);
 
   Console.print(mensaje);
   mensaje = "";
-
-
-
 
 }
 
