@@ -1,3 +1,12 @@
+/*
+   Cliente YUN para postear datos a Processing
+   Compilado en:    IDE v1.5.7
+   Placa:           Arduino Yun
+   Version:         0.0.1
+   Fecha:           Agosto 2014
+   Funcion:         Postear 4 señales de datos: temperatura y humedad (DHT11), ruido (electret) y luz (LDR)
+   Direccion General de Innovacion y Gobierno Abierto
+*/
 
 #include <Console.h>
 
