@@ -8,10 +8,10 @@ const int dataSize = 4;
 
 String header = "A";
 String tail = "B";
-String mensaje="";
+String mensaje = "";
 
 void setup() {
-  
+
   Bridge.begin();   // Initialize Bridge
   Console.begin();  // Initialize Console
 
@@ -39,20 +39,25 @@ void loop() {
   int sensor = analogRead(0);
 
 
-  
+
   mensaje += header;
-  int largo=(int)random(1,4);
-  
-  for(int i=0;i<largo;i++){
-    mensaje += String((int)random(0,9));
- //   delay(del);
+  mensaje += ",";
+
+  int largo = (int)random(1, 4);
+
+  for (int i = 0; i < largo; i++) {
+    mensaje += String((int)random(0, 1023));
+    mensaje += ",";
+    //   delay(del);
   }
-  mensaje +=tail;
+  mensaje += tail;
+  mensaje += ",";
+
   delay(del);
 
   Console.print(mensaje);
-  mensaje="";
-  
+  mensaje = "";
+
 
 
 
