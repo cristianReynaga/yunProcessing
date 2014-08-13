@@ -31,8 +31,9 @@ int timerApagado=0;
 int ARRAY_SIZE= 4;
 int end=10;
 String ss;
-String header="S";
-String tail="E";
+String header="A";
+String tail="B";
+String mensaje="";
 
 void setup() {
   size(100, 100);
@@ -94,19 +95,47 @@ void draw() {
 
       if (s != null) {
         String ss=trim(s);
-        String[] ii= split(ss, ',');
-        for (int j=0;j<ii.length;j++) {
-          if (ii[0].equals("A")) {
-            int sensor1= ii[1];
+        String recibido=ss;
+        boolean tieneTail=false;
+        println("Recibido: "+recibido);
+        String parseado="";
+        println(str(recibido.charAt(0)));
 
-            println(s + "        "+ii.length + " sensor 1: " + sensor1);
+        if (str(recibido.charAt(0)).equals(header) ) {
+          println("empieza bien   ");
+
+          for (int j=1;j<recibido.length();j++) {
+            if ( str(recibido.charAt(j)).equals(tail) ) {
+              j=recibido.length();
+              tieneTail=true;
+            }
+            else {
+              parseado+=str(recibido.charAt(j));
+            }
           }
         }
-        //println(ii[0]);
-        int a= Integer.parseInt(ii[0]);
+        if(tieneTail){
+          println("parseado: "+parseado);
+        }
+        else{
+        println("incompleto: "+parseado);
+        }
+
 
         /*
-        //OSC
+        String[] ii= split(ss, ',');
+         for (int j=0;j<ii.length;j++) {
+         if (ii[0].equals("A")) {
+         int sensor1= ii[1];
+         
+         println(s + "        "+ii.length + " sensor 1: " + sensor1);
+         }
+         }
+         //println(ii[0]);
+         int a= Integer.parseInt(ii[0]);
+         
+        /*
+         //OSC
          OscMessage myMessage = new OscMessage("/sensor_0");
          myMessage.add(a);
          oscP5.send(myMessage, myRemoteLocation);
@@ -116,70 +145,58 @@ void draw() {
          println("completo:     "+iii);
          }
          
-         if (ii.length==4) {
          
-         String s1=ii[0];
-         String s2=ii[1];
-         String s3=ii[2];
-         String statusCheck="";
-         if (!s1.equals(statusCheck)) {
-         println("s1: "+s1+ " s2:  " +s2+ " s3: "+s3);
+         // println("sending: "+ii[0]);
+         //  int a= Integer.parseInt(s);
+         // a=a+3;
+         //int iiCount= ii.length();
+         // println(ii.length+"  "+ii[0]);
+         //  System.out.print(s);
+         
+         }
+         
+         }
+         
+         if (channel.isClosed()) {
+         System.out.println("exit-status: "+channel.getExitStatus());
+         //      break;
          }
          }
+         
+         
+         catch(Exception IOException) {
+         System.err.print(IOException);
+         }
+         
+         
+        /*
+         try {
+         // if used with the Console example code, this will blink the LED
+         // in time with polling events
+         
+         if (prendido) {
+         if (( millis()-timerPrendido )>1000) {
+         dataOut.writeBytes("L\n");
+         dataOut.flush();
+         timerApagado=millis();
+         prendido=false;
+         println("apaga!");
+         }
+         }
+         else{
+         if (( millis()-timerApagado)>1000) {
+         dataOut.writeBytes("H\n");
+         dataOut.flush();
+         timerPrendido=millis();
+         prendido=true;
+         println("prende!");
          */
-
-        // println("sending: "+ii[0]);
-        //  int a= Integer.parseInt(s);
-        // a=a+3;
-        //int iiCount= ii.length();
-        // println(ii.length+"  "+ii[0]);
-        //  System.out.print(s);
       }
     }
-
-    if (channel.isClosed()) {
-      System.out.println("exit-status: "+channel.getExitStatus());
-      //      break;
-    }
   }
-
-
-  catch(Exception IOException) {
-    System.err.print(IOException);
+  catch(Exception ee) {
+    System.err.print(ee);
   }
-
-
-  /*
-  try {
-   // if used with the Console example code, this will blink the LED
-   // in time with polling events
-   
-   if (prendido) {
-   if (( millis()-timerPrendido )>1000) {
-   dataOut.writeBytes("L\n");
-   dataOut.flush();
-   timerApagado=millis();
-   prendido=false;
-   println("apaga!");
-   }
-   }
-   else{
-   if (( millis()-timerApagado)>1000) {
-   dataOut.writeBytes("H\n");
-   dataOut.flush();
-   timerPrendido=millis();
-   prendido=true;
-   println("prende!");
-   }
-   
-   }
-   
-   
-   }
-   catch(Exception ee) {
-   System.err.print(ee);
-   }
-   */
 }
 
 void mousePressed() {
