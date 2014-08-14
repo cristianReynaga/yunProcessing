@@ -31,14 +31,28 @@ int timerApagado=0;
 int ARRAY_SIZE= 4;
 int end=10;
 String ss;
-String header="A";
-String tail="B";
-String mensaje="";
+String headerT="A";
+String tailT="B";
+String mensajeT="";
+
+String headerH="C";
+String tailH="D";
+String mensajeH="";
+
+
+String headerN="E";
+String tailN="F";
+String mensajeN="";
+
+
+String headerL="G";
+String tailL="H";
+String mensajeL="";
 
 void setup() {
   size(100, 100);
   oscP5 = new OscP5(this, portOsc);
-  myRemoteLocation = new NetAddress(ip, 12000);
+  myRemoteLocation = new NetAddress("127.0.0.1", 12000);
 
   try {
     jsch = new JSch();
@@ -83,6 +97,13 @@ void draw() {
   background(255, 22, 100);
   byte[] tmp=new byte[1024];
 
+  OscMessage myMessageT = new OscMessage("/sensor_0");
+  // myMessageT.add(100);
+  oscP5.send(myMessageT, myRemoteLocation);
+  OscMessage myMessageH = new OscMessage("/sensor_1");
+  OscMessage myMessageN = new OscMessage("/sensor_2");
+  OscMessage myMessageL = new OscMessage("/sensor_3");
+
   try {
     while (in.available ()>0) {
 
@@ -96,107 +117,124 @@ void draw() {
       if (s != null) {
         String ss=trim(s);
         String recibido=ss;
-        boolean tieneTail=false;
-        println("Recibido: "+recibido);
+        boolean tieneTailT=false;
+        boolean tieneTailH=false;
+        boolean tieneTailN=false;
+        boolean tieneTailL=false;
+        // println("Recibido: "+recibido);
         String parseado="";
-        println(str(recibido.charAt(0)));
+        //  println(str(recibido.charAt(0)));
 
-        if (str(recibido.charAt(0)).equals(header) ) {
-          println("empieza bien   ");
+        if (str(recibido.charAt(0)).equals(headerT) ) {
 
           for (int j=1;j<recibido.length();j++) {
-            if ( str(recibido.charAt(j)).equals(tail) ) {
+            if ( str(recibido.charAt(j)).equals(tailT) ) {
               j=recibido.length();
-              tieneTail=true;
+              tieneTailT=true;
             }
             else {
               parseado+=str(recibido.charAt(j));
             }
           }
+          //OSC
+          myMessageT.add(100);
+          oscP5.send(myMessageT, myRemoteLocation);
+          //println("Temp: "+parseado);
         }
-        if(tieneTail){
-          println("parseado: "+parseado);
-        }
-        else{
-        println("incompleto: "+parseado);
+        else if (str(recibido.charAt(0)).equals(headerH)) {
+
+          for (int j=1;j<recibido.length();j++) {
+            if ( str(recibido.charAt(j)).equals(tailH) ) {
+              j=recibido.length();
+              tieneTailH=true;
+            }
+            else {
+              parseado+=str(recibido.charAt(j));
+            }
+          }
+          //OSC
+          myMessageH.add(parseado);
+          oscP5.send(myMessageH, myRemoteLocation);
+
+          // println("Hum: "+parseado);
         }
 
+        else if (str(recibido.charAt(0)).equals(headerN)) {
 
-        /*
-        String[] ii= split(ss, ',');
-         for (int j=0;j<ii.length;j++) {
-         if (ii[0].equals("A")) {
-         int sensor1= ii[1];
-         
-         println(s + "        "+ii.length + " sensor 1: " + sensor1);
-         }
-         }
-         //println(ii[0]);
-         int a= Integer.parseInt(ii[0]);
-         
-        /*
-         //OSC
-         OscMessage myMessage = new OscMessage("/sensor_0");
-         myMessage.add(a);
-         oscP5.send(myMessage, myRemoteLocation);
-         if (ii[0].equals(header)) {
-         println("check");
-         String iii=ii[1];
-         println("completo:     "+iii);
-         }
-         
-         
-         // println("sending: "+ii[0]);
-         //  int a= Integer.parseInt(s);
-         // a=a+3;
-         //int iiCount= ii.length();
-         // println(ii.length+"  "+ii[0]);
-         //  System.out.print(s);
-         
-         }
-         
-         }
-         
-         if (channel.isClosed()) {
-         System.out.println("exit-status: "+channel.getExitStatus());
-         //      break;
-         }
-         }
-         
-         
-         catch(Exception IOException) {
-         System.err.print(IOException);
-         }
-         
-         
-        /*
-         try {
-         // if used with the Console example code, this will blink the LED
-         // in time with polling events
-         
-         if (prendido) {
-         if (( millis()-timerPrendido )>1000) {
-         dataOut.writeBytes("L\n");
-         dataOut.flush();
-         timerApagado=millis();
-         prendido=false;
-         println("apaga!");
-         }
-         }
-         else{
-         if (( millis()-timerApagado)>1000) {
-         dataOut.writeBytes("H\n");
-         dataOut.flush();
-         timerPrendido=millis();
-         prendido=true;
-         println("prende!");
-         */
+          for (int j=1;j<recibido.length();j++) {
+            if ( str(recibido.charAt(j)).equals(tailN) ) {
+              j=recibido.length();
+              tieneTailN=true;
+            }
+            else {
+              parseado+=str(recibido.charAt(j));
+            }
+          }
+          //OSC
+          myMessageN.add(parseado);
+          oscP5.send(myMessageN, myRemoteLocation);
+          //  println("Noise: "+parseado);
+        }
+
+        else if (str(recibido.charAt(0)).equals(headerL)) {
+
+          for (int j=1;j<recibido.length();j++) {
+            if ( str(recibido.charAt(j)).equals(tailL) ) {
+              j=recibido.length();
+              tieneTailL=true;
+            }
+            else {
+              parseado+=str(recibido.charAt(j));
+            }
+          }
+          //OSC
+          myMessageT.add(parseado);
+          oscP5.send(myMessageL, myRemoteLocation);
+          //println("Light: "+parseado);
+        }
       }
     }
   }
-  catch(Exception ee) {
-    System.err.print(ee);
+  catch(Exception IOException) {
+    System.err.print(IOException);
   }
+  if (channel.isClosed()) {
+    System.out.println("exit-status: "+channel.getExitStatus());
+    //      break;
+    //}
+  }
+
+
+
+
+
+
+  //try {
+  //  // if used with the Console example code, this will blink the LED
+  //  // in time with polling events
+  //
+  //  if (prendido) {
+  //    if (( millis()-timerPrendido )>1000) {
+  //      dataOut.writeBytes("L\n");
+  //      dataOut.flush();
+  //      timerApagado=millis();
+  //      prendido=false;
+  //      println("apaga!");
+  //    }
+  //  }
+  //  else {
+  //    if (( millis()-timerApagado)>1000) {
+  //      dataOut.writeBytes("H\n");
+  //      dataOut.flush();
+  //      timerPrendido=millis();
+  //      prendido=true;
+  //      println("prende!");
+  //    }
+  //  }
+  //}
+  //catch(Exception ee) {
+  //  System.err.print(ee);
+  //}
 }
 
 void mousePressed() {

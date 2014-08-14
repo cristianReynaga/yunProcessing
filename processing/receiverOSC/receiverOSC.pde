@@ -34,7 +34,14 @@ void oscEvent(OscMessage theOscMessage) {
   if(theOscMessage.checkAddrPattern("/sensor_0")==true) {
       /* parse theOscMessage and extract the values from the osc message arguments. */
       int ldr = theOscMessage.get(0).intValue();  
-      println(" ldr: "+ldr);
+      println("temp: "+ldr);
+      return;
+    
+  } 
+  if(theOscMessage.checkAddrPattern("/sensor_1")==true) {
+      /* parse theOscMessage and extract the values from the osc message arguments. */
+      int ldr = theOscMessage.get(0).intValue();  
+      println(" hum: "+ldr);
       return;
     
   } 
