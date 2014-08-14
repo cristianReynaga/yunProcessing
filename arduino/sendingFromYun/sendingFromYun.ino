@@ -16,9 +16,28 @@ char incomingByte;      // a variable to read incoming Console data into
 const int del = 100;
 const int dataSize = 4;
 
-String header = "A";
-String tail = "B";
-String mensaje = "";
+//Temp
+String headerT = "A";
+String tailT = "B";
+String mensajeT = "";
+
+//Hum
+String headerH = "C";
+String tailH = "D";
+String mensajeH = "";
+
+//Noise
+String headerN = "E";
+String tailN = "F";
+String mensajeN = "";
+
+//Light
+String headerL = "G";
+String tailL = "H";
+String mensajeL = "";
+
+
+
 
 // Variables sensores
 byte Offset = 0;
@@ -34,7 +53,7 @@ float Res0 = 10.0;
 //int min = 0;       //valor mínimo que da la foto-resistencia
 //int max = 1000;       //valor máximo que da la foto-resistencia
 // Variables ruido
-int electret = 0;
+int electretPin = 0;
 int lect = 0;
 int noise = 0;
 int threshold = 760;
@@ -60,27 +79,45 @@ void loop() {
   //Humedad
   int hum = dht.readHumidity() + 7;
   //Ruido
-  int lect = analogRead(electret);
+  int lect = analogRead(electretPin);
   noise = lect - threshold;
   //Luz
   light0 = analogRead(lightPin);   // Read the analogue pin
   float Vout0 = light0 * 0.0048828125;  // calculate the voltage
   light = 500 / (Res0 * ((5 - Vout0) / Vout0));
 
-  int sensor = analogRead(0);
 
   //Sending data
-  mensaje += header;
-  int largo = 4;//(int)random(1, 4);
+  mensajeT += headerT;
+  mensajeH += headerH;
+  mensajeN += headerN;
+  mensajeL += headerL;
 
-  for (int i = 0; i < largo; i++) {
-    mensaje += String((int)random(0, 9));
-  }
+  int largo = 1;//String(light).length();
 
-  mensaje += tail;
+  //  for (int i = 0; i < largo; i++) {
+  mensajeT += String(temp);
+  mensajeH += String(hum);
+  mensajeN += String(noise);
+  mensajeL += String(light);
   delay(del);
-  Console.print(mensaje);
-  mensaje = "";
+  // }
+
+  mensajeT += tailT;
+  mensajeH += tailH;
+  mensajeN += tailN;
+  mensajeL += tailL;
+
+  delay(del);
+  Console.print(mensajeT);
+  Console.print(mensajeH);
+  Console.print(mensajeN);
+  Console.print(mensajeL);
+
+  mensajeT = "";
+  mensajeH = "";
+  mensajeN = "";
+  mensajeL = "";
 
 }
 
