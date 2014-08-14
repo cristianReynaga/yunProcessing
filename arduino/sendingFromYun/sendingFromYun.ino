@@ -96,10 +96,10 @@ void loop() {
   int largo = 1;//String(light).length();
 
   //  for (int i = 0; i < largo; i++) {
-  mensajeT += String("100");
-  mensajeH += String("200");
-  mensajeN += String("300");
-  mensajeL += String("4000");
+  mensajeT += String(temp);
+  mensajeH += String(hum);
+  mensajeN += String(noise);
+  mensajeL += String(light);
   delay(del);
   // }
 
@@ -110,11 +110,11 @@ void loop() {
 
   delay(del);
   Console.print(mensajeT);
-    delay(del);
+  delay(del);
   Console.print(mensajeH);
-    delay(del);
+  delay(del);
   Console.print(mensajeN);
-    delay(del);
+  delay(del);
   Console.print(mensajeL);
   delay(del);
   mensajeT = "";
