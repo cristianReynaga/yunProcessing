@@ -97,12 +97,6 @@ void draw() {
   background(255, 22, 100);
   byte[] tmp=new byte[1024];
 
-  OscMessage myMessageT = new OscMessage("/sensor_0");
-  // myMessageT.add(100);
-  oscP5.send(myMessageT, myRemoteLocation);
-  OscMessage myMessageH = new OscMessage("/sensor_1");
-  OscMessage myMessageN = new OscMessage("/sensor_2");
-  OscMessage myMessageL = new OscMessage("/sensor_3");
 
   try {
     while (in.available ()>0) {
@@ -137,7 +131,9 @@ void draw() {
             }
           }
           //OSC
-          myMessageT.add(100);
+          OscMessage myMessageT = new OscMessage("/sensor_0");
+
+          myMessageT.add(Integer.parseInt(parseado));
           oscP5.send(myMessageT, myRemoteLocation);
           //println("Temp: "+parseado);
         }
@@ -153,7 +149,9 @@ void draw() {
             }
           }
           //OSC
-          myMessageH.add(parseado);
+          OscMessage myMessageH = new OscMessage("/sensor_1");
+
+          myMessageH.add(Integer.parseInt(parseado));
           oscP5.send(myMessageH, myRemoteLocation);
 
           // println("Hum: "+parseado);
@@ -171,7 +169,9 @@ void draw() {
             }
           }
           //OSC
-          myMessageN.add(parseado);
+          OscMessage myMessageN = new OscMessage("/sensor_2");
+
+          myMessageN.add(Integer.parseInt(parseado));
           oscP5.send(myMessageN, myRemoteLocation);
           //  println("Noise: "+parseado);
         }
@@ -188,7 +188,9 @@ void draw() {
             }
           }
           //OSC
-          myMessageT.add(parseado);
+          OscMessage myMessageL = new OscMessage("/sensor_3");
+
+          myMessageL.add(Integer.parseInt(parseado));
           oscP5.send(myMessageL, myRemoteLocation);
           //println("Light: "+parseado);
         }
