@@ -36,27 +36,38 @@ String headerL = "G";
 String tailL = "H";
 String mensajeL = "";
 
-
-
-
 // Variables sensores
 byte Offset = 0;
 #define DHTPIN 2 //Seleccionamos el pin en el que se //conectará el sensor
-#define DHTTYPE DHT11 //Se selecciona el DHT11 (hay //otros DHT)
+#define DHTTYPE DHT22 //Se selecciona el DHT11 (hay //otros DHT)
 DHT dht(DHTPIN, DHTTYPE); //Se inicia una variable que será usada por Arduino para comunicarse con el sensor
 unsigned long time;
+
 // Variables Luz
-int lightPin = 5;  //Pin de la foto-resistencia
+int lightPin = A3;  //Pin de la foto-resistencia
 int light = 0;   //Variable light
 int light0 = 0;
-float Res0 = 10.0;
+float Res0 = 0.4;
 //int min = 0;       //valor mínimo que da la foto-resistencia
 //int max = 1000;       //valor máximo que da la foto-resistencia
+
 // Variables ruido
-int electretPin = 0;
+
+int electret = A0;
 int lect = 0;
 int noise = 0;
-int threshold = 760;
+int threshold = 450;
+
+
+// Rangos
+int minTemp = 0;
+int maxTemp = 40;
+int minHum = 0;
+int maxHum = 100;
+int minNoise = 40;
+int maxNoise = 120;
+int minLight = 0;
+int maxLight = 4000;
 
 
 void setup() {
@@ -72,19 +83,52 @@ void setup() {
 
 void loop() {
 
-  //Sensores
 
   //Temperatura
-  int temp = dht.readTemperature() - 6;
+  int temp = dht.readTemperature() - 5;
+    if (temp < minTemp)
+  {
+    temp = minTemp;
+  }
+  else if (temp > maxTemp)
+  {
+    temp = maxTemp;
+  }
+  
   //Humedad
-  int hum = dht.readHumidity() + 7;
+  int hum = dht.readHumidity() + 11;
+  if (hum < minHum)
+  {
+    hum = minHum;
+  }
+  else if (hum > maxHum)
+  {
+    hum = maxHum;
+  }
+  
   //Ruido
-  int lect = analogRead(electretPin);
+  int lect = analogRead(electret);
   noise = lect - threshold;
+  if (noise < minNoise)
+  {
+    noise = minNoise;
+  }
+  else if (noise > maxNoise)
+  {
+    noise = maxNoise;
+  }
   //Luz
   light0 = analogRead(lightPin);   // Read the analogue pin
   float Vout0 = light0 * 0.0048828125;  // calculate the voltage
   light = 500 / (Res0 * ((5 - Vout0) / Vout0));
+  if (light < minLight)
+  {
+    light = minLight;
+  }
+  else if (light > maxLight)
+  {
+    light = maxLight;
+  }
 
 
   //Sending data
@@ -107,6 +151,8 @@ void loop() {
   mensajeH += tailH;
   mensajeN += tailN;
   mensajeL += tailL;
+
+
 
   delay(del);
   Console.print(mensajeT);
