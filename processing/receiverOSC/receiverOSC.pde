@@ -10,7 +10,7 @@ import netP5.*;
 OscP5 oscP5;
 
 void setup() {
-  size(400,400);
+  size(200,200);
   frameRate(25);
   /* start oscP5, listening for incoming messages at port 12000 */
   oscP5 = new OscP5(this,12000);
@@ -26,7 +26,7 @@ void setup() {
 
 
 void draw() {
-  background(0);  
+  background(100);  
 }
 
 void oscEvent(OscMessage theOscMessage) {
@@ -34,14 +34,14 @@ void oscEvent(OscMessage theOscMessage) {
   if(theOscMessage.checkAddrPattern("/sensor_0")==true) {
       /* parse theOscMessage and extract the values from the osc message arguments. */
       int ldr = theOscMessage.get(0).intValue();  
-      println("temp: "+ldr+5);
+      println("temp: "+ldr);
       return;
     
   } 
   if(theOscMessage.checkAddrPattern("/sensor_1")==true) {
       /* parse theOscMessage and extract the values from the osc message arguments. */
       int ldr = theOscMessage.get(0).intValue();  
-      println(" hum: "+ldr+5);
+      println("hum: "+ldr);
       return;
     
   }
@@ -49,14 +49,14 @@ void oscEvent(OscMessage theOscMessage) {
  if(theOscMessage.checkAddrPattern("/sensor_2")==true) {
       /* parse theOscMessage and extract the values from the osc message arguments. */
       int ldr = theOscMessage.get(0).intValue();  
-      println("noise: "+ldr+5);
+      println("noise: "+ldr);
       return;
     
   } 
   if(theOscMessage.checkAddrPattern("/sensor_3")==true) {
       /* parse theOscMessage and extract the values from the osc message arguments. */
       int ldr = theOscMessage.get(0).intValue();  
-      println(" light: "+ldr+5);
+      println("light: "+ldr);
       return;
     
   }  

@@ -8,7 +8,7 @@ import netP5.*;
 
 String user = "root";
 String password = "isabel09";
-String host = "yunlab.local";
+String host = "arduino.local";
 int port=22;
 
 //Variables OSC
@@ -135,7 +135,7 @@ void draw() {
 
           myMessageT.add(Integer.parseInt(parseado));
           oscP5.send(myMessageT, myRemoteLocation);
-          //println("Temp: "+parseado);
+          println("      Temp: "+parseado);
         }
         else if (str(recibido.charAt(0)).equals(headerH)) {
 
@@ -154,7 +154,7 @@ void draw() {
           myMessageH.add(Integer.parseInt(parseado));
           oscP5.send(myMessageH, myRemoteLocation);
 
-          // println("Hum: "+parseado);
+           println("      Hum: "+parseado);
         }
 
         else if (str(recibido.charAt(0)).equals(headerN)) {
@@ -173,7 +173,7 @@ void draw() {
 
           myMessageN.add(Integer.parseInt(parseado));
           oscP5.send(myMessageN, myRemoteLocation);
-          //  println("Noise: "+parseado);
+            println("      Noise: "+parseado);
         }
 
         else if (str(recibido.charAt(0)).equals(headerL)) {
@@ -192,7 +192,7 @@ void draw() {
 
           myMessageL.add(Integer.parseInt(parseado));
           oscP5.send(myMessageL, myRemoteLocation);
-          //println("Light: "+parseado);
+          println("      Light: "+parseado);
         }
       }
     }
