@@ -86,7 +86,7 @@ void loop() {
 
   //Temperatura
   int temp = dht.readTemperature() - 5;
-    if (temp < minTemp)
+  if (temp < minTemp)
   {
     temp = minTemp;
   }
@@ -94,7 +94,8 @@ void loop() {
   {
     temp = maxTemp;
   }
-  
+  delay(del);
+
   //Humedad
   int hum = dht.readHumidity() + 11;
   if (hum < minHum)
@@ -105,7 +106,8 @@ void loop() {
   {
     hum = maxHum;
   }
-  
+  delay(del);
+
   //Ruido
   int lect = analogRead(electret);
   noise = lect - threshold;
@@ -130,6 +132,7 @@ void loop() {
     light = maxLight;
   }
 
+  delay(del);
 
   //Sending data
   mensajeT += headerT;
