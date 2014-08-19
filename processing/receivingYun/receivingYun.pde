@@ -14,7 +14,7 @@ int port=22;
 //Variables OSC
 OscP5 oscP5;
 NetAddress myRemoteLocation;
-int portOsc=12000;
+int portOsc=3000;
 String ip="10.92.28.197";
 
 //////Create instances
@@ -52,7 +52,7 @@ String mensajeL="";
 void setup() {
   size(100, 100);
   oscP5 = new OscP5(this, portOsc);
-  myRemoteLocation = new NetAddress("127.0.0.1", 12000);
+  myRemoteLocation = new NetAddress("127.0.0.1", portOsc);
 
   try {
     jsch = new JSch();
