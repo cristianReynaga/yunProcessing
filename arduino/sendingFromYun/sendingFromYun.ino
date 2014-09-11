@@ -4,7 +4,7 @@
    Placa:           Arduino Yun
    Version:         0.0.1
    Fecha:           Agosto 2014
-   Funcion:         Postear 4 señales de datos: temperatura y humedad (DHT11), ruido (electret) y luz (LDR)
+   Funcion:         Postear 4 señales de datos: temperatura y humedad (DHT22), ruido (electret) y luz (LDR)
    Direccion General de Innovacion y Gobierno Abierto
 */
 
